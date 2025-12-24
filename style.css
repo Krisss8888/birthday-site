@@ -1,255 +1,237 @@
-/* DESIGN TOKENS 
-    Soft, pastel, easy on the eyes. 
-*/
-:root {
-    --bg-color: #fdfbf7;       /* Warm Cream */
-    --card-bg: #ffffff;        /* Pure White */
-    --text-main: #5d5d5d;      /* Soft Charcoal */
-    --text-light: #8e8e8e;     /* Light Grey */
-    --accent-pink: #eebbc3;    /* Muted Pink */
-    --accent-blue: #b8c0ff;    /* Muted Periwinkle */
-    --accent-green: #b5e48c;   /* Soft Sage */
-    --shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-}
-
+/* RESET */
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-main);
+    background: linear-gradient(180deg, #ffdde1 0%, #ee9ca7 100%);
     height: 100vh;
+    font-family: 'Nunito', sans-serif;
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden; /* Prevents scrollbars during animations */
+    color: #555;
 }
 
-/* CONTAINER & CARD LAYOUT */
-.container {
+/* BACKGROUND RAIN */
+#heart-rain {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    max-width: 400px;
-    padding: 20px;
-    position: relative;
-    height: 400px; /* Fixed height to prevent jumping */
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
 }
 
-.card {
+.heart {
+    position: absolute;
+    color: #ff6b6b;
+    font-size: 20px;
+    animation: fall linear forwards;
+    opacity: 0.7;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(110vh) rotate(360deg);
+    }
+}
+
+/* CONTAINER (The "Book") */
+.book-container {
+    width: 90%;
+    max-width: 450px;
+    height: 600px; /* Tall for text */
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 40px;
+    box-shadow: 0 20px 50px rgba(255, 105, 180, 0.3);
+    position: relative;
+    padding: 30px;
+    border: 8px solid #fff0f5;
+    z-index: 10;
+}
+
+/* PAGES */
+.page {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    display: flex;
+    display: none; /* Hidden by default */
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    text-align: center;
-    background: transparent;
-    
-    /* Animation States */
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    padding: 30px;
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.card.active {
-    opacity: 1;
-    pointer-events: all;
-    transform: translateY(0);
+.page.active {
+    display: flex;
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
 }
 
 /* TYPOGRAPHY */
-.text-large {
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: var(--text-main);
+.cute-title {
+    font-family: 'Pacifico', cursive;
+    color: #ff69b4;
+    font-size: 2.2rem;
+    text-align: center;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 0px #fff;
 }
 
-.text-sub {
-    font-size: 1rem;
-    color: var(--text-light);
-    margin-bottom: 2rem;
+.cute-title.big {
+    font-size: 3rem;
+    line-height: 1.2;
 }
 
-.title {
-    font-size: 1.8rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    color: var(--text-main);
-}
-
-.text-body {
+.text-box {
+    background: #fff0f5; /* Lavender Blush */
+    padding: 20px;
+    border-radius: 20px;
+    border: 2px dashed #ffb7b2;
+    width: 100%;
+    margin-bottom: 20px;
     font-size: 1.1rem;
     line-height: 1.6;
-    color: var(--text-main);
-    margin-bottom: 2rem;
+    color: #6d6d6d;
+}
+
+/* Make long text scrollable */
+.scrollable {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* Custom scrollbar for cuteness */
+.scrollable::-webkit-scrollbar {
+    width: 8px;
+}
+.scrollable::-webkit-scrollbar-thumb {
+    background: #ffb7b2;
+    border-radius: 10px;
+}
+
+.cute-list {
+    list-style: none;
+    text-align: left;
+    width: 100%;
+    padding: 20px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: inset 0 0 20px #f0f0f0;
+}
+
+.cute-list li {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    font-weight: 700;
+    color: #ff69b4;
+}
+
+.final-msg {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ff6b6b;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.signature {
+    font-family: 'Pacifico', cursive;
+    font-size: 1.2rem;
+    color: #888;
+    margin-bottom: 20px;
 }
 
 /* BUTTONS */
-.btn {
-    background-color: var(--text-main);
+.btn-heart {
+    background: #ff69b4;
     color: white;
     border: none;
-    padding: 12px 32px;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
     border-radius: 50px;
-    font-size: 0.95rem;
     cursor: pointer;
-    transition: transform 0.2s ease, opacity 0.5s;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 20px rgba(255, 105, 180, 0.4);
+    transition: transform 0.2s;
+    animation: heartbeat 1.5s infinite;
 }
 
-.btn:hover {
-    transform: scale(1.05);
-}
-
-.btn-secondary {
-    background-color: var(--bg-color);
-    color: var(--text-main);
-    border: 1px solid #e0e0e0;
-    padding: 10px 24px;
-    border-radius: 50px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.btn-secondary:active {
-    background-color: var(--accent-pink);
-    color: white;
-    border-color: var(--accent-pink);
-    transform: scale(0.95);
-}
-
-.btn-link {
-    background: none;
-    border: none;
-    color: var(--text-light);
-    font-size: 0.85rem;
-    cursor: pointer;
-    margin-top: 2rem;
-    text-decoration: underline;
-    opacity: 0.6;
-}
-
-.btn-link:hover {
-    opacity: 1;
-}
-
-/* UTILS */
-.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
-
-.spacer {
-    height: 10px;
-}
-
-/* INTERACTIVE SMILEY (CSS DRAWING) */
-.interactive-circle {
-    width: 80px;
-    height: 80px;
-    background-color: #fff;
-    border-radius: 50%;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    margin-bottom: 1.5rem;
-    position: relative;
-    border: 2px solid #f0f0f0;
-}
-
-.interactive-circle:hover {
+.btn-heart:hover {
     transform: scale(1.1);
-    border-color: var(--accent-pink);
 }
 
-.eyes {
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.nav-btns {
     display: flex;
-    gap: 14px;
-    margin-bottom: 4px;
-    opacity: 0; /* Hidden initially */
-    transition: opacity 0.3s;
+    gap: 20px;
 }
 
-.eye {
-    width: 6px;
-    height: 6px;
-    background-color: var(--text-main);
+.btn-small {
+    background: white;
+    border: 2px solid #ff69b4;
+    color: #ff69b4;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s;
 }
 
-.mouth {
-    width: 20px;
-    height: 10px;
-    border: 2px solid var(--text-main);
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-radius: 0 0 20px 20px; /* Semi-circle */
-    opacity: 0; /* Hidden initially */
-    transition: opacity 0.3s;
+.btn-small:hover {
+    background: #ff69b4;
+    color: white;
 }
 
-/* State when clicked */
-.interactive-circle.is-active {
-    background-color: var(--accent-pink); /* Soft Pink fill */
-    border-color: var(--accent-pink);
-    transform: rotate(10deg) scale(1.1);
-}
+ /* --- LOVE BOMB UPGRADE --- */
 
-.interactive-circle.is-active .eyes,
-.interactive-circle.is-active .mouth {
-    opacity: 1;
-}
-
-.interactive-circle.is-active .eye,
-.interactive-circle.is-active .mouth {
-    background-color: white; /* Eyes become white on pink bg */
-    border-color: white;
-}
-.interactive-circle.is-active .eye {
-    background-color: white; 
-}
-
-.text-hidden {
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.5s ease;
-    color: var(--text-main);
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
-}
-
-.text-hidden.reveal {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* CONFETTI PARTICLE (Created via JS) */
-.confetti {
+/* The explosion particle */
+.bomb-particle {
     position: fixed;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     pointer-events: none;
-    animation: fall linear forwards;
+    z-index: 2000; /* On top of everything */
+    font-size: 2rem; /* Big emojis */
 }
 
-@keyframes fall {
-    to {
-        transform: translateY(100vh) rotate(720deg);
-        opacity: 0;
-    }
+/* Screen Shake Animation */
+.shake-screen {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+    10%, 90% { transform: translate3d(-2px, 0, 0); }
+    20%, 80% { transform: translate3d(4px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-8px, 0, 0); }
+    40%, 60% { transform: translate3d(8px, 0, 0); }
+}
+
+/* Pink Flash */
+.flash-effect {
+    animation: flash 1s ease-out;
+}
+
+@keyframes flash {
+    0% { background-color: #ff69b4; }
+    100% { background-color: transparent; }
 }

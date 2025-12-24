@@ -1,131 +1,186 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.2">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Cutie</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
 </head>
 <body>
-<p class="p1">/*</p>
-<p class="p1"><span class="Apple-converted-space">    </span>LOGIC</p>
-<p class="p1"><span class="Apple-converted-space">    </span>Simple state management to switch between "cards".</p>
-<p class="p1"><span class="Apple-converted-space">    </span>No libraries used.</p>
-<p class="p1">*/</p>
-<p class="p2"><br></p>
-<p class="p1">function nextStep(stepNumber) {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>// 1. Hide current active step</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const currentStep = document.querySelector('.card.active');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>if (currentStep) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>currentStep.classList.remove('active');</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// Wait for fade out to finish before removing completely (optional polish)</p>
-<p class="p1"><span class="Apple-converted-space">        </span>setTimeout(() =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>currentStep.style.display = 'none';</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}, 800);<span class="Apple-converted-space"> </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// 2. Show next step</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const nextStep = document.getElementById(`step-${stepNumber}`);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>if (nextStep) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>// Reset display to flex to allow transition</p>
-<p class="p1"><span class="Apple-converted-space">        </span>nextStep.style.display = 'flex';</p>
-<p class="p1"><span class="Apple-converted-space">        </span>// Small delay to allow browser to register "display: flex" before adding opacity class</p>
-<p class="p1"><span class="Apple-converted-space">        </span>setTimeout(() =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>nextStep.classList.add('active');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}, 50);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* STEP 2: THE SMILEY INTERACTION<span class="Apple-converted-space"> </span></p>
-<p class="p1">*/</p>
-<p class="p1">const smileTrigger = document.getElementById('smile-trigger');</p>
-<p class="p1">const smileText = document.getElementById('smile-text');</p>
-<p class="p1">const step2Btn = document.getElementById('step-2-btn');</p>
-<p class="p2"><br></p>
-<p class="p1">smileTrigger.addEventListener('click', function() {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>// Add class to animate the circle into a face</p>
-<p class="p1"><span class="Apple-converted-space">    </span>this.classList.add('is-active');</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// Reveal the text underneath</p>
-<p class="p1"><span class="Apple-converted-space">    </span>smileText.classList.add('reveal');</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// Reveal the next button smoothly</p>
-<p class="p1"><span class="Apple-converted-space">    </span>step2Btn.classList.remove('hidden');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>step2Btn.style.opacity = '1';</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// Prevent double clicking</p>
-<p class="p1"><span class="Apple-converted-space">    </span>this.style.pointerEvents = 'none';</p>
-<p class="p1">});</p>
-<p class="p2"><br></p>
-<p class="p2"><br></p>
-<p class="p1">/* STEP 3: THE CONFETTI GIMMICK<span class="Apple-converted-space"> </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>Lightweight vanilla JS particle system</p>
-<p class="p1">*/</p>
-<p class="p1">const confettiBtn = document.getElementById('confetti-btn');</p>
-<p class="p1">const colors = ['#eebbc3', '#b8c0ff', '#b5e48c', '#fdfbf7', '#ffd6a5'];</p>
-<p class="p2"><br></p>
-<p class="p1">confettiBtn.addEventListener('click', function() {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>// Create 30 particles</p>
-<p class="p1"><span class="Apple-converted-space">    </span>for (let i = 0; i &lt; 30; i++) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>createConfetti();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// Change button text temporarily</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const originalText = this.innerText;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>this.innerText = "Yay";</p>
-<p class="p1"><span class="Apple-converted-space">    </span>this.disabled = true; // Prevent spamming</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>setTimeout(() =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>this.innerText = originalText;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>this.disabled = false;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}, 2000);</p>
-<p class="p1">});</p>
-<p class="p2"><br></p>
-<p class="p1">function createConfetti() {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const confetti = document.createElement('div');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>confetti.classList.add('confetti');</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// Random positioning</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const startX = window.innerWidth / 2; // Start from center (button area)</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const startY = window.innerHeight / 2;</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// Random spread</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const spreadX = (Math.random() - 0.5) * 400; // Spread left/right</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const spreadY = (Math.random() - 1) * 400; // Spread up mostly</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>confetti.style.left = `${startX}px`;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>confetti.style.top = `${startY}px`;</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// Random color</p>
-<p class="p1"><span class="Apple-converted-space">    </span>confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// Animation duration randomization</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const duration = Math.random() * 2 + 1.5; // Between 1.5s and 3.5s</p>
-<p class="p1"><span class="Apple-converted-space">    </span>confetti.style.animationDuration = `${duration}s`;</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// Custom trajectory using translate in keyframes would be complex dynamically,<span class="Apple-converted-space"> </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// so we use transition for initial burst, then animation for fall.</p>
-<p class="p1"><span class="Apple-converted-space">    </span>// Actually, simple physics simulation is better:</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.body.appendChild(confetti);</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// Animate movement using Web Animations API for better performance/simplicity than keyframes</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const animation = confetti.animate([</p>
-<p class="p1"><span class="Apple-converted-space">        </span>{ transform: `translate(0, 0) scale(1)` },</p>
-<p class="p1"><span class="Apple-converted-space">        </span>{ transform: `translate(${spreadX}px, ${spreadY}px) scale(1)`, offset: 0.2 }, // Burst out</p>
-<p class="p1"><span class="Apple-converted-space">        </span>{ transform: `translate(${spreadX}px, ${window.innerHeight}px) scale(0.5)`, opacity: 0 } // Fall down</p>
-<p class="p1"><span class="Apple-converted-space">    </span>], {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>duration: duration * 1000,</p>
-<p class="p1"><span class="Apple-converted-space">        </span>easing: 'cubic-bezier(0.25, 1, 0.5, 1)'</p>
-<p class="p1"><span class="Apple-converted-space">    </span>});</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>animation.onfinish = () =&gt; confetti.remove();</p>
-<p class="p1">}</p>
+
+    <div id="heart-rain"></div>
+    
+    <main class="book-container">
+        
+        <div class="page active" id="page-1">
+            <div class="content">
+                <h1 class="cute-title">For my  TejuBabu </h1>
+                <div class="text-box">
+                    <p>
+                        I know we aren't together right now, but did you really think I'd let this day pass without doing something extra?
+                    </p>
+                    <p>
+                        This is something i did for you. For my babu and my love my baby.
+                    </p>
+                </div>
+                <button class="btn-heart" onclick="nextPage(2)">Open My Heart &rarr;</button>
+            </div>
+        </div>
+
+        <div class="page" id="page-2">
+            <div class="content">
+                <h1 class="cute-title">You're Still The One</h1>
+                <div class="text-box scrollable">
+                    <p>
+                        I was looking at old photos of us the other day, and I realized something. The times i spent with you were the best. It's in the way you laugh, the way you make fun of me the way we just vibed so much it was the cutest.
+                    </p>
+                    <p>
+                        Even when we are apart, you are the first thing I think of when I wake up. It's annoying actually, how much space you take up in my brain. But I wouldn't have it any other way.
+                    </p>
+                </div>
+                <div class="nav-btns">
+                    <button class="btn-small" onclick="prevPage(1)">&larr;</button>
+                    <button class="btn-small" onclick="nextPage(3)">&rarr;</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page-3">
+            <div class="content">
+                <h1 class="cute-title">Do You Remember?</h1>
+                <div class="text-box scrollable">
+                    <p>
+                        BRO the kashid trip we went? Everything went wrong, but it didn't matter because I was with you.
+                    </p>
+                    <p>
+                        I replay that day in my head all the time. The way you looked in that outfit. The way your hand felt in mine. It felt like we were the only two people on Earth.
+                    </p>
+                </div>
+                <div class="nav-btns">
+                    <button class="btn-small" onclick="prevPage(2)">&larr;</button>
+                    <button class="btn-small" onclick="nextPage(4)">&rarr;</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page-4">
+            <div class="content">
+                <h1 class="cute-title">I Miss You (A Lot)</h1>
+                <div class="text-box scrollable">
+                    <p>
+                        It feels quiet without you. Too quiet. I miss your texts popping up on my phone. I miss sending you stupid reels. I miss the way you smell.
+                    </p>
+                    <p>
+                        Honestly? Everything reminds me of you. The songs on the radio, the food I eat, the places I walk past. You are haunting me in the most beautiful way possible.
+                    </p>
+                </div>
+                <div class="nav-btns">
+                    <button class="btn-small" onclick="prevPage(3)">&larr;</button>
+                    <button class="btn-small" onclick="nextPage(5)">&rarr;</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page-5">
+            <div class="content">
+                <h1 class="cute-title">The Little Things</h1>
+                <ul class="cute-list">
+                    <li>💕 How you get excited about our sundays.</li>
+                    <li>💕 The way you talk when you're so much in love with me.</li>
+                    <li>💕 How much you care about me.</li>
+                    <li>💕 Your obsession with annoying me and having fun and going out with me.</li>
+                </ul>
+                <div class="nav-btns">
+                    <button class="btn-small" onclick="prevPage(4)">&larr;</button>
+                    <button class="btn-small" onclick="nextPage(6)">&rarr;</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page-6">
+            <div class="content">
+                <h1 class="cute-title">I'm Sorry</h1>
+                <div class="text-box scrollable">
+                    <p>
+                        I know I wasn't perfect. I know I messed up. But I want you to know that my intentions were always to make you happy.
+                    </p>
+                    <p>
+                        If I could go back and relive the last year, I would hold you tighter. I would listen better. I would treat you like the baby you actually are.
+                    </p>
+                </div>
+                <div class="nav-btns">
+                    <button class="btn-small" onclick="prevPage(5)">&larr;</button>
+                    <button class="btn-small" onclick="nextPage(7)">&rarr;</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page-7">
+            <div class="content">
+                <h1 class="cute-title">Why It's You</h1>
+                <div class="text-box scrollable">
+                    <p>
+                        People ask me why I still care. It's simple. You have the biggest heart I've ever known. You are kind, you are smart, and you are beautiful inside and out.
+                    </p>
+                    <p>
+                         losing you was the hardest lesson I've ever had to learn.
+                    </p>
+                </div>
+                <div class="nav-btns">
+                    <button class="btn-small" onclick="prevPage(6)">&larr;</button>
+                    <button class="btn-small" onclick="nextPage(8)">&rarr;</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page-8">
+            <div class="content">
+                <h1 class="cute-title">My Wish For You ✨</h1>
+                <div class="text-box">
+                    <p>
+                        For your birthday, I hope you get everything you want.
+                    </p>
+                    <p>
+                        I hope you eat your favorite cake. I hope you laugh until your stomach hurts. I hope you feel loved, because you deserve it.
+                    </p>
+                </div>
+                <div class="nav-btns">
+                    <button class="btn-small" onclick="prevPage(7)">&larr;</button>
+                    <button class="btn-small" onclick="nextPage(9)">&rarr;</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page-9">
+            <div class="content">
+                <h1 class="cute-title">The Truth Is...</h1>
+                <div class="text-box">
+                    <p>
+                        I'm still here. I'm always going to be here.
+                    </p>
+                    <p>
+                        No matter how much time passes, you're always going to have a special place in my heart that nobody else can touch. You're my favorite person.
+                    </p>
+                </div>
+                <div class="nav-btns">
+                    <button class="btn-small" onclick="prevPage(8)">&larr;</button>
+                    <button class="btn-small" onclick="nextPage(10)">&rarr;</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page-10">
+            <div class="content">
+                <h1 class="cute-title big">HAPPY BIRTHDAY TEJA! <br>🎂🎈💖</h1>
+                <p class="final-msg">Have the best day ever.</p>
+                <p class="signature">- Always yours, Kwis</p>
+                <button class="btn-heart" onclick="explodeHearts()">Tap for Love Bomb 💖</button>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="script.js"></script>
 </body>
 </html>
