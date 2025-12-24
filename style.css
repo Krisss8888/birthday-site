@@ -1,0 +1,255 @@
+/* DESIGN TOKENS 
+    Soft, pastel, easy on the eyes. 
+*/
+:root {
+    --bg-color: #fdfbf7;       /* Warm Cream */
+    --card-bg: #ffffff;        /* Pure White */
+    --text-main: #5d5d5d;      /* Soft Charcoal */
+    --text-light: #8e8e8e;     /* Light Grey */
+    --accent-pink: #eebbc3;    /* Muted Pink */
+    --accent-blue: #b8c0ff;    /* Muted Periwinkle */
+    --accent-green: #b5e48c;   /* Soft Sage */
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Prevents scrollbars during animations */
+}
+
+/* CONTAINER & CARD LAYOUT */
+.container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    position: relative;
+    height: 400px; /* Fixed height to prevent jumping */
+}
+
+.card {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: transparent;
+    
+    /* Animation States */
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.card.active {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+}
+
+/* TYPOGRAPHY */
+.text-large {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-main);
+}
+
+.text-sub {
+    font-size: 1rem;
+    color: var(--text-light);
+    margin-bottom: 2rem;
+}
+
+.title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-main);
+}
+
+.text-body {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--text-main);
+    margin-bottom: 2rem;
+}
+
+/* BUTTONS */
+.btn {
+    background-color: var(--text-main);
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.5s;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+.btn-secondary {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    border: 1px solid #e0e0e0;
+    padding: 10px 24px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary:active {
+    background-color: var(--accent-pink);
+    color: white;
+    border-color: var(--accent-pink);
+    transform: scale(0.95);
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 0.85rem;
+    cursor: pointer;
+    margin-top: 2rem;
+    text-decoration: underline;
+    opacity: 0.6;
+}
+
+.btn-link:hover {
+    opacity: 1;
+}
+
+/* UTILS */
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.spacer {
+    height: 10px;
+}
+
+/* INTERACTIVE SMILEY (CSS DRAWING) */
+.interactive-circle {
+    width: 80px;
+    height: 80px;
+    background-color: #fff;
+    border-radius: 50%;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin-bottom: 1.5rem;
+    position: relative;
+    border: 2px solid #f0f0f0;
+}
+
+.interactive-circle:hover {
+    transform: scale(1.1);
+    border-color: var(--accent-pink);
+}
+
+.eyes {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 4px;
+    opacity: 0; /* Hidden initially */
+    transition: opacity 0.3s;
+}
+
+.eye {
+    width: 6px;
+    height: 6px;
+    background-color: var(--text-main);
+    border-radius: 50%;
+}
+
+.mouth {
+    width: 20px;
+    height: 10px;
+    border: 2px solid var(--text-main);
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-radius: 0 0 20px 20px; /* Semi-circle */
+    opacity: 0; /* Hidden initially */
+    transition: opacity 0.3s;
+}
+
+/* State when clicked */
+.interactive-circle.is-active {
+    background-color: var(--accent-pink); /* Soft Pink fill */
+    border-color: var(--accent-pink);
+    transform: rotate(10deg) scale(1.1);
+}
+
+.interactive-circle.is-active .eyes,
+.interactive-circle.is-active .mouth {
+    opacity: 1;
+}
+
+.interactive-circle.is-active .eye,
+.interactive-circle.is-active .mouth {
+    background-color: white; /* Eyes become white on pink bg */
+    border-color: white;
+}
+.interactive-circle.is-active .eye {
+    background-color: white; 
+}
+
+.text-hidden {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.5s ease;
+    color: var(--text-main);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.text-hidden.reveal {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* CONFETTI PARTICLE (Created via JS) */
+.confetti {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}

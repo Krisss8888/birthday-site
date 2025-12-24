@@ -1,0 +1,115 @@
+/*
+    LOGIC
+    Simple state management to switch between "cards".
+    No libraries used.
+*/
+
+function nextStep(stepNumber) {
+    // 1. Hide current active step
+    const currentStep = document.querySelector('.card.active');
+    if (currentStep) {
+        currentStep.classList.remove('active');
+        
+        // Wait for fade out to finish before removing completely (optional polish)
+        setTimeout(() => {
+            currentStep.style.display = 'none';
+        }, 800); 
+    }
+
+    // 2. Show next step
+    const nextStep = document.getElementById(`step-${stepNumber}`);
+    if (nextStep) {
+        // Reset display to flex to allow transition
+        nextStep.style.display = 'flex';
+        // Small delay to allow browser to register "display: flex" before adding opacity class
+        setTimeout(() => {
+            nextStep.classList.add('active');
+        }, 50);
+    }
+}
+
+/* STEP 2: THE SMILEY INTERACTION 
+*/
+const smileTrigger = document.getElementById('smile-trigger');
+const smileText = document.getElementById('smile-text');
+const step2Btn = document.getElementById('step-2-btn');
+
+smileTrigger.addEventListener('click', function() {
+    // Add class to animate the circle into a face
+    this.classList.add('is-active');
+    
+    // Reveal the text underneath
+    smileText.classList.add('reveal');
+    
+    // Reveal the next button smoothly
+    step2Btn.classList.remove('hidden');
+    step2Btn.style.opacity = '1';
+    
+    // Prevent double clicking
+    this.style.pointerEvents = 'none';
+});
+
+
+/* STEP 3: THE CONFETTI GIMMICK 
+    Lightweight vanilla JS particle system
+*/
+const confettiBtn = document.getElementById('confetti-btn');
+const colors = ['#eebbc3', '#b8c0ff', '#b5e48c', '#fdfbf7', '#ffd6a5'];
+
+confettiBtn.addEventListener('click', function() {
+    // Create 30 particles
+    for (let i = 0; i < 30; i++) {
+        createConfetti();
+    }
+    
+    // Change button text temporarily
+    const originalText = this.innerText;
+    this.innerText = "Yay";
+    this.disabled = true; // Prevent spamming
+    
+    setTimeout(() => {
+        this.innerText = originalText;
+        this.disabled = false;
+    }, 2000);
+});
+
+function createConfetti() {
+    const confetti = document.createElement('div');
+    confetti.classList.add('confetti');
+    
+    // Random positioning
+    const startX = window.innerWidth / 2; // Start from center (button area)
+    const startY = window.innerHeight / 2;
+    
+    // Random spread
+    const spreadX = (Math.random() - 0.5) * 400; // Spread left/right
+    const spreadY = (Math.random() - 1) * 400; // Spread up mostly
+    
+    confetti.style.left = `${startX}px`;
+    confetti.style.top = `${startY}px`;
+    
+    // Random color
+    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    
+    // Animation duration randomization
+    const duration = Math.random() * 2 + 1.5; // Between 1.5s and 3.5s
+    confetti.style.animationDuration = `${duration}s`;
+    
+    // Custom trajectory using translate in keyframes would be complex dynamically, 
+    // so we use transition for initial burst, then animation for fall.
+    // Actually, simple physics simulation is better:
+    
+    document.body.appendChild(confetti);
+    
+    // Animate movement using Web Animations API for better performance/simplicity than keyframes
+    const animation = confetti.animate([
+        { transform: `translate(0, 0) scale(1)` },
+        { transform: `translate(${spreadX}px, ${spreadY}px) scale(1)`, offset: 0.2 }, // Burst out
+        { transform: `translate(${spreadX}px, ${window.innerHeight}px) scale(0.5)`, opacity: 0 } // Fall down
+    ], {
+        duration: duration * 1000,
+        easing: 'cubic-bezier(0.25, 1, 0.5, 1)'
+    });
+    
+    animation.onfinish = () => confetti.remove();
+}
