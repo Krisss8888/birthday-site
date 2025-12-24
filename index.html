@@ -12,65 +12,120 @@
   </style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="en"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;A Small Note&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;link rel="stylesheet" href="style.css"&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
+<p class="p1">/*</p>
+<p class="p1"><span class="Apple-converted-space">    </span>LOGIC</p>
+<p class="p1"><span class="Apple-converted-space">    </span>Simple state management to switch between "cards".</p>
+<p class="p1"><span class="Apple-converted-space">    </span>No libraries used.</p>
+<p class="p1">*/</p>
 <p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;main class="container"&gt;</p>
+<p class="p1">function nextStep(stepNumber) {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// 1. Hide current active step</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const currentStep = document.querySelector('.card.active');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (currentStep) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>currentStep.classList.remove('active');</p>
 <p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;section id="step-1" class="card active"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="content"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;p class="text-large"&gt;Hi.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;p class="text-sub"&gt;This is just a small birthday thing.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;button class="btn" onclick="nextStep(2)"&gt;Continue&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Wait for fade out to finish before removing completely (optional polish)</p>
+<p class="p1"><span class="Apple-converted-space">        </span>setTimeout(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentStep.style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}, 800);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
 <p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;section id="step-2" class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="content"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="interactive-circle" id="smile-trigger"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="eyes"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span class="eye left"&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span class="eye right"&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="mouth"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;p class="text-hidden" id="smile-text"&gt;Hope today feels a little nice.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;button class="btn hidden" id="step-2-btn" onclick="nextStep(3)"&gt;Next&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// 2. Show next step</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const nextStep = document.getElementById(`step-${stepNumber}`);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (nextStep) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Reset display to flex to allow transition</p>
+<p class="p1"><span class="Apple-converted-space">        </span>nextStep.style.display = 'flex';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Small delay to allow browser to register "display: flex" before adding opacity class</p>
+<p class="p1"><span class="Apple-converted-space">        </span>setTimeout(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>nextStep.classList.add('active');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}, 50);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1">}</p>
 <p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;section id="step-3" class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="content"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;h1 class="title"&gt;Happy Birthday.&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;p class="text-body"&gt;I hope this year is gentle with you.&lt;/p&gt;</p>
-<p class="p2"><span class="Apple-converted-space">                </span></p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;button class="btn-secondary" id="confetti-btn"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>Tap for a small surprise</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/button&gt;</p>
-<p class="p2"><span class="Apple-converted-space">                </span></p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="spacer"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;button class="btn-link" onclick="nextStep(4)"&gt;Finish&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
+<p class="p1">/* STEP 2: THE SMILEY INTERACTION<span class="Apple-converted-space"> </span></p>
+<p class="p1">*/</p>
+<p class="p1">const smileTrigger = document.getElementById('smile-trigger');</p>
+<p class="p1">const smileText = document.getElementById('smile-text');</p>
+<p class="p1">const step2Btn = document.getElementById('step-2-btn');</p>
 <p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;section id="step-4" class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="content"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;p class="text-large"&gt;That’s all.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;p class="text-sub"&gt;Have a good day.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
+<p class="p1">smileTrigger.addEventListener('click', function() {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Add class to animate the circle into a face</p>
+<p class="p1"><span class="Apple-converted-space">    </span>this.classList.add('is-active');</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Reveal the text underneath</p>
+<p class="p1"><span class="Apple-converted-space">    </span>smileText.classList.add('reveal');</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Reveal the next button smoothly</p>
+<p class="p1"><span class="Apple-converted-space">    </span>step2Btn.classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>step2Btn.style.opacity = '1';</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Prevent double clicking</p>
+<p class="p1"><span class="Apple-converted-space">    </span>this.style.pointerEvents = 'none';</p>
+<p class="p1">});</p>
 <p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/main&gt;</p>
 <p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="script.js"&gt;&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+<p class="p1">/* STEP 3: THE CONFETTI GIMMICK<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>Lightweight vanilla JS particle system</p>
+<p class="p1">*/</p>
+<p class="p1">const confettiBtn = document.getElementById('confetti-btn');</p>
+<p class="p1">const colors = ['#eebbc3', '#b8c0ff', '#b5e48c', '#fdfbf7', '#ffd6a5'];</p>
+<p class="p2"><br></p>
+<p class="p1">confettiBtn.addEventListener('click', function() {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Create 30 particles</p>
+<p class="p1"><span class="Apple-converted-space">    </span>for (let i = 0; i &lt; 30; i++) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>createConfetti();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Change button text temporarily</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const originalText = this.innerText;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>this.innerText = "Yay";</p>
+<p class="p1"><span class="Apple-converted-space">    </span>this.disabled = true; // Prevent spamming</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>setTimeout(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>this.innerText = originalText;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>this.disabled = false;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}, 2000);</p>
+<p class="p1">});</p>
+<p class="p2"><br></p>
+<p class="p1">function createConfetti() {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const confetti = document.createElement('div');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>confetti.classList.add('confetti');</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Random positioning</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const startX = window.innerWidth / 2; // Start from center (button area)</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const startY = window.innerHeight / 2;</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Random spread</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const spreadX = (Math.random() - 0.5) * 400; // Spread left/right</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const spreadY = (Math.random() - 1) * 400; // Spread up mostly</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>confetti.style.left = `${startX}px`;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>confetti.style.top = `${startY}px`;</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Random color</p>
+<p class="p1"><span class="Apple-converted-space">    </span>confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Animation duration randomization</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const duration = Math.random() * 2 + 1.5; // Between 1.5s and 3.5s</p>
+<p class="p1"><span class="Apple-converted-space">    </span>confetti.style.animationDuration = `${duration}s`;</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Custom trajectory using translate in keyframes would be complex dynamically,<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// so we use transition for initial burst, then animation for fall.</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Actually, simple physics simulation is better:</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.body.appendChild(confetti);</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Animate movement using Web Animations API for better performance/simplicity than keyframes</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const animation = confetti.animate([</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ transform: `translate(0, 0) scale(1)` },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ transform: `translate(${spreadX}px, ${spreadY}px) scale(1)`, offset: 0.2 }, // Burst out</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ transform: `translate(${spreadX}px, ${window.innerHeight}px) scale(0.5)`, opacity: 0 } // Fall down</p>
+<p class="p1"><span class="Apple-converted-space">    </span>], {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>duration: duration * 1000,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>easing: 'cubic-bezier(0.25, 1, 0.5, 1)'</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>animation.onfinish = () =&gt; confetti.remove();</p>
+<p class="p1">}</p>
 </body>
 </html>
